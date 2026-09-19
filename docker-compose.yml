@@ -4,10 +4,19 @@ services:
     container_name: squatchpatrol
     restart: unless-stopped
     ports:
-      - "8010:8000"
+      - "127.0.0.1:8010:8000"
     volumes:
       - ./db.sqlite3:/app/db.sqlite3
       - ./worlds:/app/worlds
+    env_file:
+      - path: .env
+        required: false
     environment:
       - DJANGO_SETTINGS_MODULE=squatchpatrol.settings
       - PYTHONUNBUFFERED=1
+    command: >
+      sh -c "python manage.py migrate --noinput &&
+             gunicorn squatchpatrol.wsgi:application
+             --bind 0.0.0.0:8000
+             --workers 2
+             --timeout 120"

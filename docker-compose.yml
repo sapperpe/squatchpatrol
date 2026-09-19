@@ -1,0 +1,13 @@
+services:
+  squatchpatrol:
+    build: .
+    container_name: squatchpatrol
+    restart: unless-stopped
+    ports:
+      - "8010:8000"
+    volumes:
+      - ./db.sqlite3:/app/db.sqlite3
+      - ./worlds:/app/worlds
+    environment:
+      - DJANGO_SETTINGS_MODULE=squatchpatrol.settings
+      - PYTHONUNBUFFERED=1

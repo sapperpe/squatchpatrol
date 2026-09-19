@@ -1,0 +1,121 @@
+{
+  "title": "CASE 001 — CEDAR RIDGE INCIDENT",
+  "start_room": "trailhead",
+  "flags_default": {
+    "ranger_station_unlocked": false,
+    "lookout_gate_open": false,
+    "radio_calibrated": false,
+    "won": false
+  },
+  "items": {
+    "flashlight": {
+      "name": "Flashlight",
+      "desc": "A scuffed flashlight. Beam is weak but determined."
+    },
+    "field_radio": {
+      "name": "Field Radio",
+      "desc": "Forest Service-style handheld. It hisses like it knows secrets."
+    },
+    "ranger_key": {
+      "name": "Ranger Key",
+      "desc": "A brass key labeled 'STATION'. Smells faintly of cedar oil."
+    },
+    "plaster_kit": {
+      "name": "Plaster Cast Kit",
+      "desc": "A small field kit for casting tracks. Heavy, but worth it."
+    },
+    "evidence_bag": {
+      "name": "Evidence Bag",
+      "desc": "A zip bag with a TORCHLIGHT sticker. Official enough."
+    },
+    "audio_tape": {
+      "name": "Microcassette Tape",
+      "desc": "A labeled tape: 'RIDGE CALLS — DO NOT PLAY ALONE'."
+    }
+  },
+  "rooms": {
+    "trailhead": {
+      "name": "Cedar Ridge Trailhead",
+      "desc": "Rain taps the hood of your truck. Fir trees loom. A trail sign reads:\n  CEDAR RIDGE — 4.2 MI — STAY ON TRAIL\nA faded warning sticker: 'SQUATCHPATROL — REPORT ANOMALIES'.",
+      "exits": { "north": "logging_road", "east": "creek" },
+      "items": ["flashlight", "field_radio"]
+    },
+    "creek": {
+      "name": "Cold Creek",
+      "desc": "A narrow creek cuts through mossy rock. The water is clear.\nSomething on the bank looks like a disturbance… or a message.",
+      "exits": { "west": "trailhead" },
+      "items": ["plaster_kit"]
+    },
+    "logging_road": {
+      "name": "Old Logging Road",
+      "desc": "A muddy service road half-reclaimed by salal. Tire ruts are old.\nBut the footprints beside them are… not.\nThe air smells like wet cedar and ozone.",
+      "exits": { "south": "trailhead", "north": "cedar_grove", "east": "ranger_station" },
+      "locks": { "east": "ranger_station_unlocked" },
+      "lock_messages": {
+        "east": "THE RANGER STATION DOOR IS CHAINED. YOU'D NEED A KEY… OR A VERY BAD IDEA."
+      },
+      "items": ["evidence_bag"]
+    },
+    "cedar_grove": {
+      "name": "Cedar Grove",
+      "desc": "Giant cedars rise like pillars. The canopy dims everything.\nYou hear a knock—wood on wood—three times.\nThen silence.",
+      "exits": { "south": "logging_road", "north": "lookout_gate" },
+      "items": ["ranger_key"]
+    },
+    "lookout_gate": {
+      "name": "Lookout Gate",
+      "desc": "A steel gate blocks the last climb to the ridge lookout.\nA posted note reads: 'CLOSED — RADIO INTERFERENCE'.\nA keypad box is wired to an ancient receiver.",
+      "exits": { "south": "cedar_grove", "north": "ridge_lookout" },
+      "locks": { "north": "lookout_gate_open" },
+      "lock_messages": {
+        "north": "THE GATE WON'T BUDGE. THE KEYPAD BLINKS: 'SYNC RADIO FIRST'."
+      },
+      "items": []
+    },
+    "ranger_station": {
+      "name": "Ranger Station (Abandoned)",
+      "desc": "A small station building. Dusty maps on the wall. A radio console hums.\nA note is taped to the console:\n  'CALIBRATE HANDHELD TO 107.7 — THEN OPEN THE RIDGE'.",
+      "exits": { "west": "logging_road" },
+      "items": ["audio_tape"]
+    },
+    "ridge_lookout": {
+      "name": "Ridge Lookout",
+      "desc": "You emerge into wind and fog. A lookout tower silhouette stands ahead.\nInside the shack, a terminal glows with a single line:\n  FILE REPORT TO CLOSE CASE.\nOutside, something massive shifts the trees downhill.",
+      "exits": { "south": "lookout_gate" },
+      "items": []
+    }
+  },
+  "uses": [
+    {
+      "item": "ranger_key",
+      "location": "logging_road",
+      "set_flags": { "ranger_station_unlocked": true },
+      "add_log": "Found station key at Cedar Grove. Chain cut avoided. Door now accessible.",
+      "out": "YOU UNLOCK THE CHAINED DOOR. IT DROPS WITH A CLATTER. THE STATION IS OPEN."
+    },
+    {
+      "item": "field_radio",
+      "location": "ranger_station",
+      "set_flags": { "radio_calibrated": true },
+      "add_log": "Radio calibrated at Ranger Station per note (107.7). Interference reduced.",
+      "out": "YOU TUNE THE RADIO TO 107.7. THE STATIC THINS. A LOW VOICE WHISPERS: '…RIDGE…'."
+    },
+    {
+      "item": "field_radio",
+      "location": "lookout_gate",
+      "requires_flags": { "radio_calibrated": true },
+      "set_flags": { "lookout_gate_open": true },
+      "add_log": "Lookout gate opened after radio sync. Proceeding to ridge lookout.",
+      "out": "THE KEYPAD BEEPS ONCE. THE GATE MOTOR GRINDS, THEN OPENS. THE RIDGE IS CLEAR."
+    },
+    {
+      "item": "audio_tape",
+      "location": "ridge_lookout",
+      "requires_inventory": ["evidence_bag"],
+      "set_flags": { "won": true },
+      "win": true,
+      "add_log": "Filed report with tape evidence. Case closed pending further review.",
+      "out": "YOU SLIDE THE TAPE INTO THE TERMINAL'S PLAYER.\nTHE SCREEN FLICKERS:\n  REPORT RECEIVED.\n  EVIDENCE ATTACHED.\n  CASE STATUS: CLOSED.\n\nYOU WIN.\n(TYPE 'RESTART' TO RUN THE CASE AGAIN.)"
+    }
+  ]
+}

@@ -81,9 +81,13 @@
     "ridge_lookout": {
       "name": "Ridge Lookout",
       "desc": "You emerge into wind and fog. A lookout tower silhouette stands ahead.\nInside the shack, a terminal glows with a single line:\n  FILE REPORT TO CLOSE CASE.\nOutside, something massive shifts the trees downhill.",
-      "exits": { "south": "lookout_gate" },
+      "exits": { "south": "lookout_gate", "east": "steep_slope" },
       "items": []
     }
+    "steep_slope": {
+      "name": "Steep Slope",
+      "desc": "You take a step toward the tree disturbance when you loos your footing and begin sliding down the hill. You stop yourself just before smacking your head against a large rock. Whatever had been moving the trees is long gone, but there is a stench in the air... and a very large footprint.",
+      "exits": { "west": "too_steep" }
   },
   "uses": [
     {
